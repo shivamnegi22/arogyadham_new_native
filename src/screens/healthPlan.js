@@ -119,15 +119,27 @@ const HealthPlanPage = ({ navigation }) => {
       <View style={{ flexDirection: 'row', backgroundColor: 'white', elevation: 5 }}>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Profile')}>
           <FontAwesome6 name="user-gear" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'प्रोफाइल' : 'Profile'}
+          </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }}>
           <Ionicons name="fitness" size={30} color="#01c43d" style={{ width: 40 }} />
+          <Text style={{fontSize:10,color:'#01c43d',marginTop:2,fontWeight:'bold'}}>
+            {langState.language === 'hindi' ? 'स्वास्थ्य' : 'Health'}
+          </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Medicine')}>
           <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
         </Pressable>
-        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Diet')}>
-          <MaterialCommunityIcons name="food-apple" size={24} color="#10331b" style={{ width: 30 }} />
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Sound')}>
+          <MaterialCommunityIcons name="music-note" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'ध्वनि' : 'Sound'}
+          </Text>
         </Pressable>
       </View>
     </View>

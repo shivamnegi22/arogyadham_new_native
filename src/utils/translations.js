@@ -86,7 +86,15 @@ export const translations = {
     passwordRequired: 'पासवर्ड आवश्यक है',
     loginFailed: 'लॉगिन विफल',
     invalidCredentials: 'गलत उपयोगकर्ता नाम या पासवर्ड',
-    networkError: 'नेटवर्क त्रुटि'
+    networkError: 'नेटवर्क त्रुटि',
+    
+    // Sound Therapy
+    soundTherapy: 'ध्वनि चिकित्सा',
+    soundTips: 'ध्वनि चिकित्सा सुझाव',
+    sound: 'ध्वनि',
+    noSoundsAvailable: 'कोई ध्वनि उपलब्ध नहीं है',
+    loading: 'लोड हो रहा है...',
+    expires: 'समाप्ति तिथि: '
   },
   english: {
     // Profile Page
@@ -175,7 +183,15 @@ export const translations = {
     passwordRequired: 'Password is required',
     loginFailed: 'Login failed',
     invalidCredentials: 'Invalid username or password',
-    networkError: 'Network error'
+    networkError: 'Network error',
+    
+    // Sound Therapy
+    soundTherapy: 'Sound Therapy',
+    soundTips: 'Sound Therapy Tips',
+    sound: 'Sound',
+    noSoundsAvailable: 'No sounds available',
+    loading: 'Loading...',
+    expires: 'Expires: '
   }
 };
 

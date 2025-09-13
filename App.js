@@ -17,6 +17,7 @@ import ExercisePage from './src/screens/exercise';
 import DietPage from './src/screens/diet';
 import TimeTablePage from './src/screens/timeTable';
 import HealthPlanPage from './src/screens/healthPlan';
+import SoundPage from './src/screens/sound';
 
 const AppContent = () => {
   const { tryLocalSignin } = useContext(AuthContext);
@@ -60,6 +61,7 @@ const AppContent = () => {
         <Stack.Screen name="Exercise" component={ExercisePage} options={{headerShown:false}}/>
         <Stack.Screen name="Diet" component={DietPage} options={{headerShown:false}}/>
         <Stack.Screen name="TimeTable" component={TimeTablePage} options={{headerShown:false}}/>
+        <Stack.Screen name="Sound" component={SoundPage} options={{headerShown:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>
