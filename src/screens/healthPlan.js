@@ -1,13 +1,22 @@
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { DashboardStyle } from "../styles/dashboard";
 import { Context as AuthContext } from '../context/AuthContext';
-import { useContext } from "react";
+import { Context as LanguageContext } from '../context/LanguageContext';
+import { useContext, useEffect } from "react";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getTranslation } from "../utils/translations";
 
 const HealthPlanPage = ({ navigation }) => {
   const { state } = useContext(AuthContext);
+  const { state: langState, loadLanguage } = useContext(LanguageContext);
+
+  useEffect(() => {
+    loadLanguage();
+  }, []);
+
+  const t = (key) => getTranslation(langState.language, key);
 
   const healthPlanOptions = [
     {

@@ -1,15 +1,18 @@
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { DashboardStyle } from "../styles/dashboard";
 import { Context as AuthContext } from '../context/AuthContext';
+import { Context as LanguageContext } from '../context/LanguageContext';
 import { useContext, useEffect, useState } from "react";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { axiosAuth } from "../config/axios";
 import { Modal, Portal, Button } from "react-native-paper";
+import { getTranslation } from "../utils/translations";
 
 const DietPage = ({ navigation }) => {
   const { state } = useContext(AuthContext);
+  const { state: langState, loadLanguage } = useContext(LanguageContext);
   const [consultationDates, setConsultationDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [consultationData, setConsultationData] = useState(null);
@@ -44,7 +47,10 @@ const DietPage = ({ navigation }) => {
 
   useEffect(() => {
     getConsultationDates();
+    loadLanguage();
   }, []);
+
+  const t = (key) => getTranslation(langState.language, key);
 
   return (
     <View style={{ flex: 1 }}>
