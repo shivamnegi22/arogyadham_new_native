@@ -18,6 +18,7 @@ const SoundPage = ({ navigation }) => {
   const [currentSound, setCurrentSound] = useState(null);
   const [playingId, setPlayingId] = useState(null);
   const [playbackStatus, setPlaybackStatus] = useState({});
+  const [isLoading, setIsLoading] = useState({});
 
   const t = (key) => getTranslation(langState.language, key);
 
@@ -38,6 +39,8 @@ const SoundPage = ({ navigation }) => {
 
   const playSound = async (sound) => {
     try {
+      setIsLoading(prev => ({ ...prev, [sound.id]: true }));
+
       // Stop current sound if playing
       if (currentSound) {
         await currentSound.unloadAsync();
@@ -45,12 +48,16 @@ const SoundPage = ({ navigation }) => {
         setPlayingId(null);
       }
 
-      // Construct the full URL for the sound file
-      const soundUrl = `https://admin.arogyapath.in/${sound.file}`;
+      // Use the full URL from the API response
+      const soundUrl = sound.file;
       
       const { sound: newSound } = await Audio.Sound.createAsync(
         { uri: soundUrl },
-        { shouldPlay: true }
+        { 
+          shouldPlay: true,
+          progressUpdateIntervalMillis: 1000,
+          positionMillis: 0
+        }
       );
 
       setCurrentSound(newSound);
@@ -70,27 +77,51 @@ const SoundPage = ({ navigation }) => {
 
     } catch (error) {
       console.warn('Error playing sound:', error);
-      Alert.alert('Error', 'Failed to play sound');
+      Alert.alert('Error', 'Failed to play sound. Please check your internet connection.');
+    } finally {
+      setIsLoading(prev => ({ ...prev, [sound.id]: false }));
     }
   };
 
   const pauseSound = async () => {
     if (currentSound) {
-      await currentSound.pauseAsync();
+      try {
+        await currentSound.pauseAsync();
+      } catch (error) {
+        console.warn('Error pausing sound:', error);
+      }
     }
   };
 
   const resumeSound = async () => {
     if (currentSound) {
-      await currentSound.playAsync();
+      try {
+        await currentSound.playAsync();
+      } catch (error) {
+        console.warn('Error resuming sound:', error);
+      }
     }
   };
 
   const stopSound = async () => {
     if (currentSound) {
-      await currentSound.unloadAsync();
-      setCurrentSound(null);
-      setPlayingId(null);
+      try {
+        await currentSound.unloadAsync();
+        setCurrentSound(null);
+        setPlayingId(null);
+      } catch (error) {
+        console.warn('Error stopping sound:', error);
+      }
+    }
+  };
+
+  const seekSound = async (position) => {
+    if (currentSound) {
+      try {
+        await currentSound.setPositionAsync(position);
+      } catch (error) {
+        console.warn('Error seeking sound:', error);
+      }
     }
   };
 
@@ -113,11 +144,17 @@ const SoundPage = ({ navigation }) => {
     };
   }, []);
 
-  const formatDuration = (millis) => {
-    if (!millis) return '0:00';
-    const minutes = Math.floor(millis / 60000);
-    const seconds = Math.floor((millis % 60000) / 1000);
+  const formatTime = (millis) => {
+    if (!millis || isNaN(millis)) return '0:00';
+    const totalSeconds = Math.floor(millis / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const getProgressPercentage = (status) => {
+    if (!status || !status.durationMillis || !status.positionMillis) return 0;
+    return (status.positionMillis / status.durationMillis) * 100;
   };
 
   return (
@@ -148,71 +185,99 @@ const SoundPage = ({ navigation }) => {
                     const status = playbackStatus[sound.id];
                     const isLoaded = status?.isLoaded;
                     const isPaused = isLoaded && !status?.isPlaying;
+                    const isLoadingSound = isLoading[sound.id];
                     
                     return (
                       <View key={sound.id} style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
                         <Text style={{fontSize:18,fontWeight:'bold',color:'#01c43d',marginBottom:10}}>
-                          {langState.language === 'hindi' ? sound.hi_name : sound.name}
+                          {langState.language === 'hindi' ? (sound.hi_name || sound.name) : sound.name}
                         </Text>
                         
-                        {(sound.description || sound.hi_description) && (
+                        {((sound.description || sound.hi_description)) && (
                           <Text style={{fontSize:14,color:'#5F5F5F',marginBottom:15,lineHeight:20}}>
-                            {langState.language === 'hindi' ? sound.hi_description : sound.description}
+                            {langState.language === 'hindi' ? (sound.hi_description || sound.description) : sound.description}
                           </Text>
                         )}
 
                         {/* Audio Controls */}
-                        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                          <View style={{flexDirection:'row',alignItems:'center'}}>
-                            {!isPlaying ? (
-                              <Pressable 
-                                style={{backgroundColor:'#01c43d',padding:12,borderRadius:25,marginRight:10}}
-                                onPress={() => playSound(sound)}
-                              >
-                                <Ionicons name="play" size={20} color="white" />
-                              </Pressable>
-                            ) : (
-                              <View style={{flexDirection:'row'}}>
+                        <View style={{marginBottom:15}}>
+                          <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+                            <View style={{flexDirection:'row',alignItems:'center'}}>
+                              {!isPlaying ? (
                                 <Pressable 
-                                  style={{backgroundColor:'#ffc107',padding:12,borderRadius:25,marginRight:10}}
-                                  onPress={isPaused ? resumeSound : pauseSound}
+                                  style={{
+                                    backgroundColor: isLoadingSound ? '#ccc' : '#01c43d',
+                                    padding:12,
+                                    borderRadius:25,
+                                    marginRight:10,
+                                    opacity: isLoadingSound ? 0.6 : 1
+                                  }}
+                                  onPress={() => !isLoadingSound && playSound(sound)}
+                                  disabled={isLoadingSound}
                                 >
-                                  <Ionicons name={isPaused ? "play" : "pause"} size={20} color="white" />
+                                  {isLoadingSound ? (
+                                    <MaterialCommunityIcons name="loading" size={20} color="white" />
+                                  ) : (
+                                    <Ionicons name="play" size={20} color="white" />
+                                  )}
                                 </Pressable>
-                                <Pressable 
-                                  style={{backgroundColor:'#dc3545',padding:12,borderRadius:25,marginRight:10}}
-                                  onPress={stopSound}
-                                >
-                                  <Ionicons name="stop" size={20} color="white" />
-                                </Pressable>
+                              ) : (
+                                <View style={{flexDirection:'row'}}>
+                                  <Pressable 
+                                    style={{backgroundColor:'#ffc107',padding:12,borderRadius:25,marginRight:10}}
+                                    onPress={isPaused ? resumeSound : pauseSound}
+                                  >
+                                    <Ionicons name={isPaused ? "play" : "pause"} size={20} color="white" />
+                                  </Pressable>
+                                  <Pressable 
+                                    style={{backgroundColor:'#dc3545',padding:12,borderRadius:25,marginRight:10}}
+                                    onPress={stopSound}
+                                  >
+                                    <Ionicons name="stop" size={20} color="white" />
+                                  </Pressable>
+                                </View>
+                              )}
+                            </View>
+
+                            {/* Time Display */}
+                            {isPlaying && status && (
+                              <View style={{alignItems:'flex-end'}}>
+                                <Text style={{fontSize:12,color:'#5F5F5F'}}>
+                                  {formatTime(status.positionMillis)} / {formatTime(status.durationMillis)}
+                                </Text>
                               </View>
                             )}
                           </View>
 
-                          {/* Duration Display */}
-                          {isPlaying && status && (
-                            <View style={{alignItems:'flex-end'}}>
-                              <Text style={{fontSize:12,color:'#5F5F5F'}}>
-                                {formatDuration(status.positionMillis)} / {formatDuration(status.durationMillis)}
-                              </Text>
-                              {/* Progress Bar */}
-                              <View style={{width:100,height:4,backgroundColor:'#e0e0e0',borderRadius:2,marginTop:5}}>
+                          {/* Progress Bar */}
+                          {isPlaying && status && status.durationMillis && (
+                            <View style={{marginTop:5}}>
+                              <Pressable
+                                style={{width:'100%',height:6,backgroundColor:'#e0e0e0',borderRadius:3}}
+                                onPress={(event) => {
+                                  const { locationX } = event.nativeEvent;
+                                  const { width } = event.currentTarget.getBoundingClientRect?.() || { width: 300 };
+                                  const percentage = locationX / width;
+                                  const newPosition = percentage * status.durationMillis;
+                                  seekSound(newPosition);
+                                }}
+                              >
                                 <View 
                                   style={{
-                                    width: status.durationMillis ? `${(status.positionMillis / status.durationMillis) * 100}%` : '0%',
+                                    width: `${getProgressPercentage(status)}%`,
                                     height:'100%',
                                     backgroundColor:'#01c43d',
-                                    borderRadius:2
+                                    borderRadius:3
                                   }}
                                 />
-                              </View>
+                              </Pressable>
                             </View>
                           )}
                         </View>
 
                         {/* Expiry Date */}
                         {sound.expiry_date && (
-                          <Text style={{fontSize:12,color:'#5F5F5F',marginTop:10}}>
+                          <Text style={{fontSize:12,color:'#5F5F5F',marginTop:5}}>
                             {langState.language === 'hindi' ? 'समाप्ति तिथि: ' : 'Expires: '}{sound.expiry_date}
                           </Text>
                         )}
