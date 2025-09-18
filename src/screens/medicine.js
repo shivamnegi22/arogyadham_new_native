@@ -67,13 +67,13 @@ const MedicinePage = ({ navigation }) => {
             </Text>
 
             {/* Date Selection */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>तिथि चुनें</Text>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:15,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>तिथि चुनें</Text>
               <Pressable 
-                style={{backgroundColor:'#01c43d',padding:10,borderRadius:5,alignItems:'center'}}
+                style={{backgroundColor:'#01c43d',padding:8,borderRadius:5,alignItems:'center'}}
                 onPress={() => setShowDateModal(true)}
               >
-                <Text style={{color:'white',fontWeight:'bold'}}>
+                <Text style={{color:'white',fontWeight:'500',fontSize:14}}>
                   {String(selectedDate || 'तिथि चुनें')}
                 </Text>
               </Pressable>
@@ -81,33 +81,33 @@ const MedicinePage = ({ navigation }) => {
 
             {/* Medicine Details */}
             {consultationData && consultationData.prescribedMedicine && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>निर्धारित दवाएं</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>निर्धारित दवाएं</Text>
                 {consultationData.prescribedMedicine.map((medicine, index) => (
-                  <View key={index} style={{marginBottom:15,padding:15,backgroundColor:'#f8f9fa',borderRadius:8}}>
-                    <Text style={{fontSize:16,fontWeight:'bold',color:'#2D2D2D',marginBottom:5}}>
+                  <View key={index} style={{marginBottom:12,padding:12,backgroundColor:'#f8f9fa',borderRadius:6}}>
+                    <Text style={{fontSize:14,fontWeight:'bold',color:'#2D2D2D',marginBottom:4}}>
                       {String(medicine.medicine_hi_name || medicine.medicine_name || 'दवा का नाम')}
                     </Text>
-                    <Text style={{fontSize:14,color:'#5F5F5F',marginBottom:5}}>
+                    <Text style={{fontSize:13,color:'#5F5F5F',marginBottom:4}}>
                       मात्रा: {String(medicine.quantity || 'N/A')}
                     </Text>
-                    <Text style={{fontSize:14,color:'#5F5F5F',marginBottom:5}}>
+                    <Text style={{fontSize:13,color:'#5F5F5F',marginBottom:4}}>
                       क्रम: {String(medicine.In_Take_Sequence || 'N/A')}
                     </Text>
-                    <Text style={{fontSize:14,color:'#5F5F5F',marginBottom:5}}>
+                    <Text style={{fontSize:13,color:'#5F5F5F',marginBottom:4}}>
                       खरीदें: {String(medicine.buy_from || 'N/A')}
                     </Text>
                     {medicine.how_to_take && medicine.how_to_take.length > 0 && (
-                      <View style={{marginTop:10}}>
-                        <Text style={{fontSize:14,fontWeight:'500',color:'#01c43d',marginBottom:5}}>
+                      <View style={{marginTop:8}}>
+                        <Text style={{fontSize:13,fontWeight:'500',color:'#01c43d',marginBottom:4}}>
                           सेवन विधि:
                         </Text>
                         {medicine.how_to_take.map((instruction, instIndex) => (
-                          <View key={instIndex} style={{marginBottom:8,paddingLeft:10}}>
-                            <Text style={{fontSize:13,color:'#2D2D2D',fontWeight:'500'}}>
+                          <View key={instIndex} style={{marginBottom:6,paddingLeft:8}}>
+                            <Text style={{fontSize:12,color:'#2D2D2D',fontWeight:'500'}}>
                               • {String(instruction.hi_time_of_take || instruction.time_of_take || '')}
                             </Text>
-                            <Text style={{fontSize:12,color:'#5F5F5F',marginLeft:10,lineHeight:16}}>
+                            <Text style={{fontSize:11,color:'#5F5F5F',marginLeft:8,lineHeight:14}}>
                               {String(instruction.hi_way_of_taken || instruction.way_of_taken || '')}
                             </Text>
                           </View>
@@ -121,10 +121,10 @@ const MedicinePage = ({ navigation }) => {
 
             {/* Medicine Instructions */}
             {consultationData && consultationData.instructions && consultationData.instructions.medicine_instruction && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>दवा निर्देश</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>दवा निर्देश</Text>
                 {consultationData.instructions.medicine_instruction.map((instruction, index) => (
-                  <Text key={index} style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+                  <Text key={index} style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                     • {String(instruction)}
                   </Text>
                 ))}
@@ -133,9 +133,9 @@ const MedicinePage = ({ navigation }) => {
 
             {/* Custom Medicine Instructions */}
             {consultationData && consultationData.medicineDetails && consultationData.medicineDetails.medicine_custom_inst && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>विशेष निर्देश</Text>
-                <Text style={{fontSize:14,color:'#2D2D2D',lineHeight:20}}>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>विशेष निर्देश</Text>
+                <Text style={{fontSize:13,color:'#2D2D2D',lineHeight:18}}>
                   {String(consultationData.medicineDetails.medicine_custom_inst || '')}
                 </Text>
               </View>
@@ -162,6 +162,12 @@ const MedicinePage = ({ navigation }) => {
           <MaterialCommunityIcons name="pill" size={30} color="#01c43d" style={{ width: 40 }} />
           <Text style={{fontSize:10,color:'#01c43d',marginTop:2,fontWeight:'bold'}}>
             {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
+        </Pressable>
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
+          <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'चिकित्सा' : 'Therapy'}
           </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Sound')}>

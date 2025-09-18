@@ -72,13 +72,13 @@ const TimeTablePage = ({ navigation }) => {
             </Text>
 
             {/* Date Selection */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>तिथि चुनें</Text>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:15,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>तिथि चुनें</Text>
               <Pressable 
-                style={{backgroundColor:'#01c43d',padding:10,borderRadius:5,alignItems:'center'}}
+                style={{backgroundColor:'#01c43d',padding:8,borderRadius:5,alignItems:'center'}}
                 onPress={() => setShowDateModal(true)}
               >
-                <Text style={{color:'white',fontWeight:'bold'}}>
+                <Text style={{color:'white',fontWeight:'500',fontSize:14}}>
                   {String(selectedDate || 'तिथि चुनें')}
                 </Text>
               </Pressable>
@@ -86,30 +86,30 @@ const TimeTablePage = ({ navigation }) => {
 
             {/* Time Table */}
             {consultationData && consultationData.time_table && consultationData.time_table.length > 0 && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>दैनिक दिनचर्या</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>दैनिक दिनचर्या</Text>
                 {consultationData.time_table.map((schedule, index) => (
-                  <View key={index} style={{marginBottom:15,padding:15,backgroundColor:'#f8f9fa',borderRadius:8}}>
-                    <Text style={{fontSize:16,fontWeight:'bold',color:'#2D2D2D',marginBottom:5}}>
+                  <View key={index} style={{marginBottom:12,padding:12,backgroundColor:'#f8f9fa',borderRadius:6}}>
+                    <Text style={{fontSize:14,fontWeight:'bold',color:'#2D2D2D',marginBottom:4}}>
                       {String(schedule.description || 'गतिविधि')}
                     </Text>
-                    <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:5}}>
-                      <Text style={{fontSize:14,color:'#5F5F5F'}}>
+                    <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:4}}>
+                      <Text style={{fontSize:13,color:'#5F5F5F'}}>
                         शुरुआत का समय: {String(formatTime(schedule.startTime))}
                       </Text>
                       {schedule.endTime && (
-                        <Text style={{fontSize:14,color:'#5F5F5F'}}>
+                        <Text style={{fontSize:13,color:'#5F5F5F'}}>
                           समाप्ति का समय: {String(formatTime(schedule.endTime))}
                         </Text>
                       )}
                     </View>
                     {schedule.medicines && schedule.medicines.length > 0 && (
-                      <View style={{marginTop:10}}>
-                        <Text style={{fontSize:14,fontWeight:'500',color:'#01c43d',marginBottom:5}}>
+                      <View style={{marginTop:8}}>
+                        <Text style={{fontSize:13,fontWeight:'500',color:'#01c43d',marginBottom:4}}>
                           दवाएं:
                         </Text>
                         {schedule.medicines.map((medicine, medIndex) => (
-                          <Text key={medIndex} style={{fontSize:13,color:'#5F5F5F',marginLeft:10}}>
+                          <Text key={medIndex} style={{fontSize:12,color:'#5F5F5F',marginLeft:8}}>
                             • {String(medicine.label || medicine.value || 'दवा')}
                           </Text>
                         ))}
@@ -121,18 +121,18 @@ const TimeTablePage = ({ navigation }) => {
             )}
 
             {/* General Time Table Tips */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>दिनचर्या सुझाव</Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>दिनचर्या सुझाव</Text>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • नियमित समय पर सोएं और जागें
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • भोजन का समय निर्धारित रखें
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • दवाओं का समय याद रखें
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',lineHeight:18}}>
                 • व्यायाम के लिए समय निकालें
               </Text>
             </View>
@@ -158,6 +158,12 @@ const TimeTablePage = ({ navigation }) => {
           <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
           <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
             {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
+        </Pressable>
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
+          <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'चिकित्सा' : 'Therapy'}
           </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Sound')}>

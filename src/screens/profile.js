@@ -77,59 +77,59 @@ const ProfilePage = ({ navigation }) => {
             </Text>
 
             {/* User Information */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>{t('userInfo')}</Text>
-              <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>{t('userInfo')}</Text>
+              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:6}}>
                 {t('name')}: {String(state.fullName || 'N/A')}
               </Text>
-              <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
+              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:6}}>
                 {t('role')}: {String(state.role || 'N/A')}
               </Text>
-              <Text style={{fontSize:16,color:'#2D2D2D'}}>
+              <Text style={{fontSize:14,color:'#2D2D2D'}}>
                 {t('phoneNumber')}: {String(state.phoneNumber || 'N/A')}
               </Text>
             </View>
 
             {/* Contact Information */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>{t('contactInfo')}</Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,fontWeight:'500'}}>{t('address')}:</Text>
-              <Text style={{fontSize:14,color:'#5F5F5F',marginBottom:12,lineHeight:20}}>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>{t('contactInfo')}</Text>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,fontWeight:'500'}}>{t('address')}:</Text>
+              <Text style={{fontSize:13,color:'#5F5F5F',marginBottom:10,lineHeight:18}}>
                 Jadi Buti Farms, Kolhupani, Uttarakhand 248007
               </Text>
               
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,fontWeight:'500'}}>{t('email')}:</Text>
-              <Text style={{fontSize:14,color:'#5F5F5F',marginBottom:12}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,fontWeight:'500'}}>{t('email')}:</Text>
+              <Text style={{fontSize:13,color:'#5F5F5F',marginBottom:10}}>
                 info@arogyapath.org
               </Text>
               
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,fontWeight:'500'}}>{t('timing')}:</Text>
-              <Text style={{fontSize:14,color:'#5F5F5F'}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,fontWeight:'500'}}>{t('timing')}:</Text>
+              <Text style={{fontSize:13,color:'#5F5F5F'}}>
                 {langState.language === 'hindi' ? 'सोमवार से रविवार: सुबह 9 बजे से शाम 4 बजे तक' : 'Monday to Sunday: 9am to 4pm'}
               </Text>
             </View>
 
             {/* Language Settings */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>{t('languageSettings')}</Text>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>{t('languageSettings')}</Text>
               <Pressable 
-                style={{backgroundColor:'#01c43d',padding:15,borderRadius:8,alignItems:'center'}}
+                style={{backgroundColor:'#01c43d',padding:12,borderRadius:6,alignItems:'center'}}
                 onPress={() => setShowLanguageModal(true)}
               >
-                <Text style={{color:'white',fontWeight:'bold',fontSize:16}}>
+                <Text style={{color:'white',fontWeight:'500',fontSize:14}}>
                   {t('selectLanguage')}: {t(langState.language)}
                 </Text>
               </Pressable>
             </View>
 
             {/* Date Selection for Consultation History */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>{t('consultationHistory')}</Text>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>{t('consultationHistory')}</Text>
               <Pressable 
-                style={{backgroundColor:'#01c43d',padding:10,borderRadius:5,alignItems:'center'}}
+                style={{backgroundColor:'#01c43d',padding:8,borderRadius:5,alignItems:'center'}}
                 onPress={() => setShowDateModal(true)}
               >
-                <Text style={{color:'white',fontWeight:'bold'}}>
+                <Text style={{color:'white',fontWeight:'500',fontSize:14}}>
                   {String(selectedDate || t('selectDate'))}
                 </Text>
               </Pressable>
@@ -137,23 +137,23 @@ const ProfilePage = ({ navigation }) => {
 
             {/* Payment Details */}
             {consultationData && consultationData.payment_details && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>{t('paymentDetails')}</Text>
-                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('previousBalance')}:</Text>
-                  <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.prev_balance || 0)}</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>{t('paymentDetails')}</Text>
+                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:6}}>
+                  <Text style={{fontSize:13,color:'#2D2D2D'}}>{t('previousBalance')}:</Text>
+                  <Text style={{fontSize:13,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.prev_balance || 0)}</Text>
                 </View>
-                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('mapAmount')}:</Text>
-                  <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.map_amount || 0)}</Text>
+                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:6}}>
+                  <Text style={{fontSize:13,color:'#2D2D2D'}}>{t('mapAmount')}:</Text>
+                  <Text style={{fontSize:13,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.map_amount || 0)}</Text>
                 </View>
-                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('actualAmount')}:</Text>
-                  <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.actual_amount || 0)}</Text>
+                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:6}}>
+                  <Text style={{fontSize:13,color:'#2D2D2D'}}>{t('actualAmount')}:</Text>
+                  <Text style={{fontSize:13,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.actual_amount || 0)}</Text>
                 </View>
                 <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('discount')}:</Text>
-                  <Text style={{fontSize:14,color:'#01c43d'}}>₹{String(consultationData.payment_details.discount || 0)}</Text>
+                  <Text style={{fontSize:13,color:'#2D2D2D'}}>{t('discount')}:</Text>
+                  <Text style={{fontSize:13,color:'#01c43d'}}>₹{String(consultationData.payment_details.discount || 0)}</Text>
                 </View>
               </View>
             )}
@@ -195,6 +195,12 @@ const ProfilePage = ({ navigation }) => {
           <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
           <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
             {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
+        </Pressable>
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
+          <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'चिकित्सा' : 'Therapy'}
           </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Sound')}>
@@ -264,14 +270,14 @@ const ProfilePage = ({ navigation }) => {
           
           <Pressable 
             style={{
-              padding:15,
+              padding:12,
               borderRadius:8,
               backgroundColor: langState.language === 'english' ? '#01c43d' : '#f0f0f0',
-              marginBottom:20
+              marginBottom:15
             }}
             onPress={() => handleLanguageChange('english')}
           >
-            <Text style={{
+            <Text style={{color:'white',fontSize:14,fontWeight:'500'}}>
               textAlign:'center',
               color: langState.language === 'english' ? 'white' : '#2D2D2D',
               fontWeight:'500',

@@ -189,51 +189,58 @@ const SoundPage = ({ navigation }) => {
                     
                     return (
                       <View key={sound.id} style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                        <Text style={{fontSize:18,fontWeight:'bold',color:'#01c43d',marginBottom:10}}>
+                      <View key={sound.id} style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                        <Text style={{fontSize:16,fontWeight:'bold',color:'#01c43d',marginBottom:8}}>
                           {langState.language === 'hindi' ? (sound.hi_name || sound.name) : sound.name}
                         </Text>
                         
                         {((sound.description || sound.hi_description)) && (
-                          <Text style={{fontSize:14,color:'#5F5F5F',marginBottom:15,lineHeight:20}}>
+                          <Text style={{fontSize:13,color:'#5F5F5F',marginBottom:12,lineHeight:18}}>
                             {langState.language === 'hindi' ? (sound.hi_description || sound.description) : sound.description}
                           </Text>
                         )}
 
                         {/* Audio Controls */}
-                        <View style={{marginBottom:15}}>
-                          <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
-                            <View style={{flexDirection:'row',alignItems:'center'}}>
+                        <View style={{marginBottom:10}}>
+                          <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+                            <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
                               {!isPlaying ? (
                                 <Pressable 
                                   style={{
                                     backgroundColor: isLoadingSound ? '#ccc' : '#01c43d',
-                                    padding:12,
-                                    borderRadius:25,
-                                    marginRight:10,
+                                    paddingHorizontal:16,
+                                    paddingVertical:8,
+                                    borderRadius:20,
+                                    marginRight:8,
                                     opacity: isLoadingSound ? 0.6 : 1
                                   }}
                                   onPress={() => !isLoadingSound && playSound(sound)}
                                   disabled={isLoadingSound}
                                 >
-                                  {isLoadingSound ? (
-                                    <MaterialCommunityIcons name="loading" size={20} color="white" />
-                                  ) : (
-                                    <Ionicons name="play" size={20} color="white" />
-                                  )}
+                                  <View style={{flexDirection:'row',alignItems:'center'}}>
+                                    {isLoadingSound ? (
+                                      <MaterialCommunityIcons name="loading" size={16} color="white" />
+                                    ) : (
+                                      <Ionicons name="play" size={16} color="white" />
+                                    )}
+                                    <Text style={{color:'white',fontSize:12,marginLeft:4,fontWeight:'500'}}>
+                                      {isLoadingSound ? 'Loading...' : 'Play'}
+                                    </Text>
+                                  </View>
                                 </Pressable>
                               ) : (
-                                <View style={{flexDirection:'row'}}>
+                                <View style={{flexDirection:'row',alignItems:'center'}}>
                                   <Pressable 
-                                    style={{backgroundColor:'#ffc107',padding:12,borderRadius:25,marginRight:10}}
+                                    style={{backgroundColor:'#ffc107',paddingHorizontal:12,paddingVertical:6,borderRadius:15,marginRight:6}}
                                     onPress={isPaused ? resumeSound : pauseSound}
                                   >
-                                    <Ionicons name={isPaused ? "play" : "pause"} size={20} color="white" />
+                                    <Ionicons name={isPaused ? "play" : "pause"} size={14} color="white" />
                                   </Pressable>
                                   <Pressable 
-                                    style={{backgroundColor:'#dc3545',padding:12,borderRadius:25,marginRight:10}}
+                                    style={{backgroundColor:'#dc3545',paddingHorizontal:12,paddingVertical:6,borderRadius:15}}
                                     onPress={stopSound}
                                   >
-                                    <Ionicons name="stop" size={20} color="white" />
+                                    <Ionicons name="stop" size={14} color="white" />
                                   </Pressable>
                                 </View>
                               )}
@@ -241,8 +248,8 @@ const SoundPage = ({ navigation }) => {
 
                             {/* Time Display */}
                             {isPlaying && status && (
-                              <View style={{alignItems:'flex-end'}}>
-                                <Text style={{fontSize:12,color:'#5F5F5F'}}>
+                              <View style={{alignItems:'flex-end',marginLeft:8}}>
+                                <Text style={{fontSize:11,color:'#5F5F5F',fontFamily:'monospace'}}>
                                   {formatTime(status.positionMillis)} / {formatTime(status.durationMillis)}
                                 </Text>
                               </View>
@@ -251,9 +258,9 @@ const SoundPage = ({ navigation }) => {
 
                           {/* Progress Bar */}
                           {isPlaying && status && status.durationMillis && (
-                            <View style={{marginTop:5}}>
+                            <View style={{marginTop:8}}>
                               <Pressable
-                                style={{width:'100%',height:6,backgroundColor:'#e0e0e0',borderRadius:3}}
+                                style={{width:'100%',height:4,backgroundColor:'#e0e0e0',borderRadius:2,position:'relative'}}
                                 onPress={(event) => {
                                   const { locationX } = event.nativeEvent;
                                   const { width } = event.currentTarget.getBoundingClientRect?.() || { width: 300 };
@@ -267,7 +274,19 @@ const SoundPage = ({ navigation }) => {
                                     width: `${getProgressPercentage(status)}%`,
                                     height:'100%',
                                     backgroundColor:'#01c43d',
-                                    borderRadius:3
+                                    borderRadius:2
+                                  }}
+                                />
+                                <View 
+                                  style={{
+                                    position:'absolute',
+                                    left:`${getProgressPercentage(status)}%`,
+                                    top:-2,
+                                    width:8,
+                                    height:8,
+                                    backgroundColor:'#01c43d',
+                                    borderRadius:4,
+                                    marginLeft:-4
                                   }}
                                 />
                               </Pressable>
@@ -277,7 +296,7 @@ const SoundPage = ({ navigation }) => {
 
                         {/* Expiry Date */}
                         {sound.expiry_date && (
-                          <Text style={{fontSize:12,color:'#5F5F5F',marginTop:5}}>
+                          <Text style={{fontSize:11,color:'#5F5F5F',marginTop:4}}>
                             {langState.language === 'hindi' ? 'समाप्ति तिथि: ' : 'Expires: '}{sound.expiry_date}
                           </Text>
                         )}
@@ -285,28 +304,28 @@ const SoundPage = ({ navigation }) => {
                     );
                   })
                 ) : (
-                  <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20,alignItems:'center'}}>
-                    <Text style={{fontSize:16,color:'#5F5F5F',textAlign:'center'}}>
+                  <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15,alignItems:'center'}}>
+                    <Text style={{fontSize:14,color:'#5F5F5F',textAlign:'center'}}>
                       {langState.language === 'hindi' ? 'कोई ध्वनि उपलब्ध नहीं है' : 'No sounds available'}
                     </Text>
                   </View>
                 )}
 
                 {/* Sound Therapy Tips */}
-                <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                  <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>
+                <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                  <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>
                     {langState.language === 'hindi' ? 'ध्वनि चिकित्सा सुझाव' : 'Sound Therapy Tips'}
                   </Text>
-                  <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+                  <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                     {langState.language === 'hindi' ? '• शांत वातावरण में सुनें' : '• Listen in a quiet environment'}
                   </Text>
-                  <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+                  <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                     {langState.language === 'hindi' ? '• आरामदायक स्थिति में बैठें या लेटें' : '• Sit or lie in a comfortable position'}
                   </Text>
-                  <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+                  <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                     {langState.language === 'hindi' ? '• गहरी सांस लें और आराम करें' : '• Take deep breaths and relax'}
                   </Text>
-                  <Text style={{fontSize:14,color:'#2D2D2D',lineHeight:20}}>
+                  <Text style={{fontSize:13,color:'#2D2D2D',lineHeight:18}}>
                     {langState.language === 'hindi' ? '• नियमित रूप से सुनें' : '• Listen regularly for best results'}
                   </Text>
                 </View>
@@ -334,6 +353,12 @@ const SoundPage = ({ navigation }) => {
           <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
           <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
             {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
+        </Pressable>
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
+          <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'चिकित्सा' : 'Therapy'}
           </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }}>

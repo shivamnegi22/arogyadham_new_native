@@ -67,13 +67,13 @@ const DietPage = ({ navigation }) => {
             </Text>
 
             {/* Date Selection */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>तिथि चुनें</Text>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:15,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>तिथि चुनें</Text>
               <Pressable 
-                style={{backgroundColor:'#01c43d',padding:10,borderRadius:5,alignItems:'center'}}
+                style={{backgroundColor:'#01c43d',padding:8,borderRadius:5,alignItems:'center'}}
                 onPress={() => setShowDateModal(true)}
               >
-                <Text style={{color:'white',fontWeight:'bold'}}>
+                <Text style={{color:'white',fontWeight:'500',fontSize:14}}>
                   {String(selectedDate || 'तिथि चुनें')}
                 </Text>
               </Pressable>
@@ -81,11 +81,11 @@ const DietPage = ({ navigation }) => {
 
             {/* Diet to Take */}
             {consultationData && consultationData.diets && consultationData.diets.diet_to_take && consultationData.diets.diet_to_take.length > 0 && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>लेने योग्य आहार</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>लेने योग्य आहार</Text>
                 {consultationData.diets.diet_to_take.map((diet, index) => (
-                  <View key={index} style={{marginBottom:10,padding:15,backgroundColor:'#e8f5e8',borderRadius:8}}>
-                    <Text style={{fontSize:16,color:'#2D2D2D',fontWeight:'500'}}>
+                  <View key={index} style={{marginBottom:8,padding:12,backgroundColor:'#e8f5e8',borderRadius:6}}>
+                    <Text style={{fontSize:14,color:'#2D2D2D',fontWeight:'500'}}>
                       • {String(diet)}
                     </Text>
                   </View>
@@ -95,11 +95,11 @@ const DietPage = ({ navigation }) => {
 
             {/* Diet Not to Take */}
             {consultationData && consultationData.diets && consultationData.diets.diet_not_to_take && consultationData.diets.diet_not_to_take.length > 0 && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#dc3545'}}>न लेने योग्य आहार</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#dc3545'}}>न लेने योग्य आहार</Text>
                 {consultationData.diets.diet_not_to_take.map((diet, index) => (
-                  <View key={index} style={{marginBottom:10,padding:15,backgroundColor:'#ffeaea',borderRadius:8}}>
-                    <Text style={{fontSize:16,color:'#2D2D2D',fontWeight:'500'}}>
+                  <View key={index} style={{marginBottom:8,padding:12,backgroundColor:'#ffeaea',borderRadius:6}}>
+                    <Text style={{fontSize:14,color:'#2D2D2D',fontWeight:'500'}}>
                       • {String(diet)}
                     </Text>
                   </View>
@@ -109,18 +109,18 @@ const DietPage = ({ navigation }) => {
             }
 
             {/* General Diet Tips */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>आहार सुझाव</Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>आहार सुझाव</Text>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • संतुलित और पौष्टिक आहार लें
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • भोजन के समय का ध्यान रखें
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • पर्याप्त पानी पिएं
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',lineHeight:18}}>
                 • तली हुई और मसालेदार चीजों से बचें
               </Text>
             </View>
@@ -146,6 +146,12 @@ const DietPage = ({ navigation }) => {
           <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
           <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
             {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
+        </Pressable>
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
+          <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'चिकित्सा' : 'Therapy'}
           </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Sound')}>

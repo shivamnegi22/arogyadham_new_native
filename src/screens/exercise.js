@@ -67,13 +67,13 @@ const ExercisePage = ({ navigation }) => {
             </Text>
 
             {/* Date Selection */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>तिथि चुनें</Text>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:15,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>तिथि चुनें</Text>
               <Pressable 
-                style={{backgroundColor:'#01c43d',padding:10,borderRadius:5,alignItems:'center'}}
+                style={{backgroundColor:'#01c43d',padding:8,borderRadius:5,alignItems:'center'}}
                 onPress={() => setShowDateModal(true)}
               >
-                <Text style={{color:'white',fontWeight:'bold'}}>
+                <Text style={{color:'white',fontWeight:'500',fontSize:14}}>
                   {String(selectedDate || 'तिथि चुनें')}
                 </Text>
               </Pressable>
@@ -81,20 +81,20 @@ const ExercisePage = ({ navigation }) => {
 
             {/* Preferred Exercises */}
             {consultationData && consultationData.preferedExercises && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>सुझाए गए व्यायाम</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>सुझाए गए व्यायाम</Text>
                 {consultationData.preferedExercises.map((exercise, index) => (
-                  <View key={index} style={{marginBottom:15,padding:15,backgroundColor:'#f8f9fa',borderRadius:8}}>
-                    <Text style={{fontSize:16,fontWeight:'bold',color:'#2D2D2D',marginBottom:5}}>
+                  <View key={index} style={{marginBottom:12,padding:12,backgroundColor:'#f8f9fa',borderRadius:6}}>
+                    <Text style={{fontSize:14,fontWeight:'bold',color:'#2D2D2D',marginBottom:4}}>
                       {String(exercise.exercise_hi_name || exercise.exercise_name || 'व्यायाम')}
                     </Text>
                     {(exercise.hi_how_to_do || exercise.how_to_do) && (
-                      <Text style={{fontSize:13,color:'#5F5F5F',marginTop:5,lineHeight:18}}>
+                      <Text style={{fontSize:12,color:'#5F5F5F',marginTop:4,lineHeight:16}}>
                         विधि: {String(exercise.hi_how_to_do || exercise.how_to_do)}
                       </Text>
                     )}
                     {exercise.images && (
-                      <Text style={{fontSize:12,color:'#01c43d',marginTop:5}}>
+                      <Text style={{fontSize:11,color:'#01c43d',marginTop:4}}>
                         चित्र उपलब्ध
                       </Text>
                     )}
@@ -105,10 +105,10 @@ const ExercisePage = ({ navigation }) => {
 
             {/* Exercise Instructions */}
             {consultationData && consultationData.instructions && consultationData.instructions.exercise_instruction && (
-              <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-                <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>व्यायाम निर्देश</Text>
+              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>व्यायाम निर्देश</Text>
                 {consultationData.instructions.exercise_instruction.map((instruction, index) => (
-                  <Text key={index} style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+                  <Text key={index} style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                     • {String(instruction)}
                   </Text>
                 ))}
@@ -116,18 +116,18 @@ const ExercisePage = ({ navigation }) => {
             )}
 
             {/* General Exercise Tips */}
-            <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
-              <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>व्यायाम सुझाव</Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
+              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>व्यायाम सुझाव</Text>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • व्यायाम से पहले हमेशा वार्म-अप करें
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • व्यायाम के दौरान पर्याप्त पानी पिएं
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',marginBottom:8,lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
                 • यदि दर्द या असुविधा हो तो व्यायाम बंद कर दें
               </Text>
-              <Text style={{fontSize:14,color:'#2D2D2D',lineHeight:20}}>
+              <Text style={{fontSize:13,color:'#2D2D2D',lineHeight:18}}>
                 • नियमित व्यायाम करें लेकिन अधिक न करें
               </Text>
             </View>
@@ -153,6 +153,12 @@ const ExercisePage = ({ navigation }) => {
           <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
           <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
             {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
+        </Pressable>
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
+          <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'चिकित्सा' : 'Therapy'}
           </Text>
         </Pressable>
         <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Sound')}>
