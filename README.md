@@ -1,2 +1,2 @@
-# milestone_react_native
-Milestone React Native Application
+# arogyadham_react_native
+Arogyadham React Native Application
