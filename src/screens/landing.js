@@ -1,5 +1,6 @@
 import { Image, ScrollView, Text } from "react-native";
 import { LandingStyle } from "../styles/landing";
+import { DashboardStyle } from "../styles/dashboard";
 import CommonButton from "../components/commonBtn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axiosAuth } from "../config/axios";
@@ -54,7 +55,7 @@ const LandingPage = ({navigation}) => {
   }
   return (
     <ScrollView style={LandingStyle.wrapper}>
-      <Image source={require('../../assets/images/logo.png')} resizeMode='contain' style={LandingStyle.logo}/>
+      <Image source={require('../../assets/images/logo.png')} resizeMode='contain' style={DashboardStyle.logo}/>
         <Text style={LandingStyle.subHeading}> स्वागत है।</Text>
         <Image source={require('../../assets/images/landingImg.png')} resizeMode='contain' style={LandingStyle.featuredImage}/>
         <Text style={LandingStyle.content}>स्वास्थ्य मनुष्य का सबसे बड़ा धन है।</Text>
