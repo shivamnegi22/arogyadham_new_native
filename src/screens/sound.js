@@ -330,12 +330,12 @@ const SoundPage = ({ navigation }) => {
       {langState.language === 'hindi' ? 'स्वास्थ्य' : 'Health'}
     </Text>
   </Pressable>
-  <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Medicine')}>
-    <MaterialCommunityIcons name="pill" size={30} color="#10331b" style={{ width: 40 }} />
-    <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
-      {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
-    </Text>
-  </Pressable>
+        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Medicine')}>
+          <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
+          <Text style={{fontSize:9,color:'#10331b',marginTop:2}}>
+            {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+          </Text>
+</Pressable>
   <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
     <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
     <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
