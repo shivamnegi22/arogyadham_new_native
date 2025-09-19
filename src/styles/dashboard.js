@@ -24,8 +24,9 @@ export const DashboardStyle = StyleSheet.create({
     },
     logo:{
         width:'100%',
-        height:60,
+        height:210,
         marginHorizontal:'auto',
-        marginBottom:20
+        marginBottom:-60,
+        marginTop:-100
     }
 })
