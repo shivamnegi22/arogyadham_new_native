@@ -19,6 +19,8 @@ const SoundPage = ({ navigation }) => {
   const [playingId, setPlayingId] = useState(null);
   const [playbackStatus, setPlaybackStatus] = useState({});
   const [isLoading, setIsLoading] = useState({});
+  const [soundHistory, setSoundHistory] = useState({});
+  const [startTime, setStartTime] = useState(0);
 
   const t = (key) => getTranslation(langState.language, key);
 
@@ -37,39 +39,97 @@ const SoundPage = ({ navigation }) => {
     }
   };
 
+  const getSoundHistory = async () => {
+    try {
+      const response = await axiosAuth.get('/get-patient-sound-history');
+      if (response.data && response.data.data) {
+        const historyMap = {};
+        response.data.data.forEach(item => {
+          historyMap[item.sound_id] = {
+            start_time: parseFloat(item.start_time || 0),
+            end_time: parseFloat(item.end_time || 0),
+            paused_time: parseFloat(item.paused_time || 0),
+          };
+        });
+        setSoundHistory(historyMap);
+      }
+    } catch (error) {
+      console.warn(error.message || "Error fetching sound history");
+    }
+  };
+
+  const saveSoundHistory = async (soundId, startTime, endTime, pausedTime) => {
+    try {
+      await axiosAuth.post('/patient-sound-history', {
+        sound_id: String(soundId),
+        start_time: String(startTime.toFixed(1)),
+        end_time: String(endTime.toFixed(1)),
+        paused_time: String(pausedTime.toFixed(1)),
+      });
+    } catch (error) {
+      console.warn('Error saving sound history:', error.message);
+    }
+  };
+
   const playSound = async (sound) => {
     try {
       setIsLoading(prev => ({ ...prev, [sound.id]: true }));
 
-      // Stop current sound if playing
       if (currentSound) {
-        await currentSound.unloadAsync();
+        const status = await currentSound.getStatusAsync();
+        if (status.isLoaded) {
+          const currentPausedTime = status.positionMillis / 1000;
+          const endTime = status.durationMillis / 1000;
+          await saveSoundHistory(playingId, 0, endTime, currentPausedTime);
+          await currentSound.unloadAsync();
+        }
         setCurrentSound(null);
         setPlayingId(null);
       }
 
-      // Use the full URL from the API response
       const soundUrl = sound.file;
-      
+      const history = soundHistory[sound.id];
+
+      let initialPosition = 0;
+      if (history) {
+        const { paused_time, end_time } = history;
+        if (paused_time < end_time) {
+          initialPosition = paused_time * 1000;
+        }
+      }
+
       const { sound: newSound } = await Audio.Sound.createAsync(
         { uri: soundUrl },
-        { 
+        {
           shouldPlay: true,
           progressUpdateIntervalMillis: 1000,
-          positionMillis: 0
+          positionMillis: initialPosition
         }
       );
 
       setCurrentSound(newSound);
       setPlayingId(sound.id);
+      setStartTime(0);
 
       newSound.setOnPlaybackStatusUpdate((status) => {
         setPlaybackStatus(prev => ({
           ...prev,
           [sound.id]: status
         }));
-        
-        if (status.didJustFinish) {
+
+        if (status.didJustFinish && status.durationMillis) {
+          const endTime = status.durationMillis / 1000;
+          saveSoundHistory(sound.id, 0, endTime, endTime);
+
+          setSoundHistory(prev => ({
+            ...prev,
+            [sound.id]: {
+              start_time: 0,
+              end_time: endTime,
+              paused_time: endTime,
+            }
+          }));
+
           setPlayingId(null);
           setCurrentSound(null);
         }
@@ -84,9 +144,29 @@ const SoundPage = ({ navigation }) => {
   };
 
   const pauseSound = async () => {
-    if (currentSound) {
+    if (currentSound && playingId) {
       try {
         await currentSound.pauseAsync();
+        const status = await currentSound.getStatusAsync();
+        if (status.isLoaded && status.durationMillis) {
+          const pausedTime = status.positionMillis / 1000;
+          const endTime = status.durationMillis / 1000;
+
+          const history = soundHistory[playingId];
+          const isCompleted = history && history.paused_time === history.end_time;
+
+          if (!isCompleted) {
+            await saveSoundHistory(playingId, 0, endTime, pausedTime);
+            setSoundHistory(prev => ({
+              ...prev,
+              [playingId]: {
+                start_time: 0,
+                end_time: endTime,
+                paused_time: pausedTime,
+              }
+            }));
+          }
+        }
       } catch (error) {
         console.warn('Error pausing sound:', error);
       }
@@ -104,8 +184,28 @@ const SoundPage = ({ navigation }) => {
   };
 
   const stopSound = async () => {
-    if (currentSound) {
+    if (currentSound && playingId) {
       try {
+        const status = await currentSound.getStatusAsync();
+        if (status.isLoaded && status.durationMillis) {
+          const pausedTime = status.positionMillis / 1000;
+          const endTime = status.durationMillis / 1000;
+
+          const history = soundHistory[playingId];
+          const isCompleted = history && history.paused_time === history.end_time;
+
+          if (!isCompleted) {
+            await saveSoundHistory(playingId, 0, endTime, pausedTime);
+            setSoundHistory(prev => ({
+              ...prev,
+              [playingId]: {
+                start_time: 0,
+                end_time: endTime,
+                paused_time: pausedTime,
+              }
+            }));
+          }
+        }
         await currentSound.unloadAsync();
         setCurrentSound(null);
         setPlayingId(null);
@@ -127,8 +227,8 @@ const SoundPage = ({ navigation }) => {
 
   useEffect(() => {
     getSounds();
-    
-    // Setup audio mode
+    getSoundHistory();
+
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
