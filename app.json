@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "arogyadham",
+    "name": "arogyapath",
     "slug": "arogyadham",
     "version": "2.0.0",
     "orientation": "portrait",
@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.shivamnegi.arogyadham",
+      "package": "com.shubham1811.arogyadham",
       "intentFilters": [
         {
           "action": "VIEW",
