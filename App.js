@@ -35,7 +35,7 @@ const AppContent = () => {
         <Stack.Screen name="UserLogin" 
           component={UserLoginPage} 
           options={({navigation}) => ({
-            title:"आरोग्यधाम",
+            title:"आरोग्यपथ",
             headerTitleAlign:'center',
             contentStyle:{
               backgroundColor:'#FAFAFA',

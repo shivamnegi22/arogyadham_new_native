@@ -75,17 +75,17 @@ export const translations = {
     
     // Login Page
     welcomeBack: 'स्वागत है',
-    loginInstruction: 'कृपया अपना उपयोगकर्ता नाम और पासवर्ड दर्ज करें',
-    userName: 'उपयोगकर्ता नाम',
+    loginInstruction: 'कृपया अपना पंजीकरण संख्या और पासवर्ड दर्ज करें',
+    userName: 'पंजीकरण संख्या',
     password: 'पासवर्ड',
     login: 'लॉगिन',
     userNamePlaceholder: 'जैसे: 50001',
     passwordPlaceholder: 'जैसे: 9999999999',
     loginHelp: 'लॉगिन में समस्या? संपर्क करें',
-    userNameRequired: 'उपयोगकर्ता नाम आवश्यक है',
+    userNameRequired: 'पंजीकरण संख्या आवश्यक है',
     passwordRequired: 'पासवर्ड आवश्यक है',
     loginFailed: 'लॉगिन विफल',
-    invalidCredentials: 'गलत उपयोगकर्ता नाम या पासवर्ड',
+    invalidCredentials: 'गलत पंजीकरण संख्या या पासवर्ड',
     networkError: 'नेटवर्क त्रुटि',
     
     // Sound Therapy
