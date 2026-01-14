@@ -79,15 +79,21 @@ const ProfilePage = ({ navigation }) => {
             {/* User Information */}
             <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
               <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>{t('userInfo')}</Text>
-              <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
-                {t('name')}: {String(state.fullName || 'N/A')}
-              </Text>
-              <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
-                {t('role')}: {String(state.role || 'N/A')}
-              </Text>
-              <Text style={{fontSize:16,color:'#2D2D2D'}}>
-                {t('phoneNumber')}: {String(state.phoneNumber || 'N/A')}
-              </Text>
+              {state.fullName && (
+                <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
+                  {t('name')}: {state.fullName}
+                </Text>
+              )}
+              {state.role && (
+                <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
+                  {t('role')}: {state.role}
+                </Text>
+              )}
+              {state.phoneNumber && (
+                <Text style={{fontSize:16,color:'#2D2D2D'}}>
+                  {t('phoneNumber')}: {state.phoneNumber}
+                </Text>
+              )}
             </View>
 
             {/* Contact Information */}
@@ -139,22 +145,30 @@ const ProfilePage = ({ navigation }) => {
             {consultationData && consultationData.payment_details && (
               <View style={{backgroundColor:'white',padding:20,borderRadius:10,marginBottom:20}}>
                 <Text style={{fontSize:18,fontWeight:'bold',marginBottom:15,color:'#01c43d'}}>{t('paymentDetails')}</Text>
-                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('previousBalance')}:</Text>
-                  <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.prev_balance || 0)}</Text>
-                </View>
-                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('mapAmount')}:</Text>
-                  <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.map_amount || 0)}</Text>
-                </View>
-                <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('actualAmount')}:</Text>
-                  <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{String(consultationData.payment_details.actual_amount || 0)}</Text>
-                </View>
-                <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                  <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('discount')}:</Text>
-                  <Text style={{fontSize:14,color:'#01c43d'}}>₹{String(consultationData.payment_details.discount || 0)}</Text>
-                </View>
+                {consultationData.payment_details.prev_balance !== null && consultationData.payment_details.prev_balance !== undefined && (
+                  <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
+                    <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('previousBalance')}:</Text>
+                    <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{consultationData.payment_details.prev_balance}</Text>
+                  </View>
+                )}
+                {consultationData.payment_details.map_amount && (
+                  <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
+                    <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('mapAmount')}:</Text>
+                    <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{consultationData.payment_details.map_amount}</Text>
+                  </View>
+                )}
+                {consultationData.payment_details.actual_amount && (
+                  <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:8}}>
+                    <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('actualAmount')}:</Text>
+                    <Text style={{fontSize:14,color:'#5F5F5F'}}>₹{consultationData.payment_details.actual_amount}</Text>
+                  </View>
+                )}
+                {consultationData.payment_details.discount !== null && consultationData.payment_details.discount !== undefined && (
+                  <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <Text style={{fontSize:14,color:'#2D2D2D'}}>{t('discount')}:</Text>
+                    <Text style={{fontSize:14,color:'#01c43d'}}>₹{consultationData.payment_details.discount}</Text>
+                  </View>
+                )}
               </View>
             )}
 
