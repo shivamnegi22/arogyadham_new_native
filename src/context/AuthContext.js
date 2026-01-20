@@ -12,7 +12,7 @@ const authReducer = (state, action) => {
                     registrationNumber:action.payload.registrationNumber, 
                 };
         case 'logout':
-            return {}
+            return {} 
         default: 
             return state;
     }

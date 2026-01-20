@@ -125,7 +125,7 @@ const MedicinePage = ({ navigation }) => {
                 <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>दवा निर्देश</Text>
                 {consultationData.instructions.medicine_instruction.map((instruction, index) => (
                   <Text key={index} style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
-                    • {String(instruction)}
+                    • {String(instruction?.instruction)}
                   </Text>
                 ))}
               </View>

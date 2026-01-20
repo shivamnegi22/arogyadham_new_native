@@ -1,11 +1,11 @@
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { DashboardStyle } from "../styles/dashboard";
-import { Context as AuthContext } from '../context/AuthContext';
-import { Context as LanguageContext } from '../context/LanguageContext';
+import { Context as AuthContext } from "../context/AuthContext";
+import { Context as LanguageContext } from "../context/LanguageContext";
 import { useContext, useEffect, useState } from "react";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { axiosAuth } from "../config/axios";
 import { Modal, Portal, Button } from "react-native-paper";
 import { getTranslation } from "../utils/translations";
@@ -21,7 +21,7 @@ const ExercisePage = ({ navigation }) => {
 
   const getConsultationDates = async () => {
     try {
-      const response = await axiosAuth.get('/getPatientAllConsultationDates');
+      const response = await axiosAuth.get("/getPatientAllConsultationDates");
       if (response.data && response.data.allDates) {
         setConsultationDates(response.data.allDates);
       }
@@ -58,43 +58,109 @@ const ExercisePage = ({ navigation }) => {
         <View style={DashboardStyle.wrapper}>
           <View style={{ paddingHorizontal: 30, paddingTop: 65 }}>
             <Image
-              source={require('../../assets/images/logo.png')}
+              source={require("../../assets/images/logo.png")}
               resizeMode="contain"
               style={DashboardStyle.logo}
             />
-            <Text style={DashboardStyle.subHeading}>
-              व्यायाम योजना
-            </Text>
+            <Text style={DashboardStyle.subHeading}>व्यायाम योजना</Text>
 
             {/* Date Selection */}
-            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
-              <Text style={{fontSize:15,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>तिथि चुनें</Text>
-              <Pressable 
-                style={{backgroundColor:'#01c43d',padding:8,borderRadius:5,alignItems:'center'}}
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 15,
+                borderRadius: 8,
+                marginBottom: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  marginBottom: 12,
+                  color: "#01c43d",
+                }}
+              >
+                तिथि चुनें
+              </Text>
+              <Pressable
+                style={{
+                  backgroundColor: "#01c43d",
+                  padding: 8,
+                  borderRadius: 5,
+                  alignItems: "center",
+                }}
                 onPress={() => setShowDateModal(true)}
               >
-                <Text style={{color:'white',fontWeight:'500',fontSize:14}}>
-                  {String(selectedDate || 'तिथि चुनें')}
+                <Text
+                  style={{ color: "white", fontWeight: "500", fontSize: 14 }}
+                >
+                  {String(selectedDate || "तिथि चुनें")}
                 </Text>
               </Pressable>
             </View>
 
             {/* Preferred Exercises */}
             {consultationData && consultationData.preferedExercises && (
-              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
-                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>सुझाए गए व्यायाम</Text>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  padding: 15,
+                  borderRadius: 8,
+                  marginBottom: 15,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    marginBottom: 12,
+                    color: "#01c43d",
+                  }}
+                >
+                  सुझाए गए व्यायाम
+                </Text>
                 {consultationData.preferedExercises.map((exercise, index) => (
-                  <View key={index} style={{marginBottom:12,padding:12,backgroundColor:'#f8f9fa',borderRadius:6}}>
-                    <Text style={{fontSize:14,fontWeight:'bold',color:'#2D2D2D',marginBottom:4}}>
-                      {String(exercise.exercise_hi_name || exercise.exercise_name || 'व्यायाम')}
+                  <View
+                    key={index}
+                    style={{
+                      marginBottom: 12,
+                      padding: 12,
+                      backgroundColor: "#f8f9fa",
+                      borderRadius: 6,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: "#2D2D2D",
+                        marginBottom: 4,
+                      }}
+                    >
+                      {String(
+                        exercise.exercise_hi_name ||
+                          exercise.exercise_name ||
+                          "व्यायाम",
+                      )}
                     </Text>
                     {(exercise.hi_how_to_do || exercise.how_to_do) && (
-                      <Text style={{fontSize:12,color:'#5F5F5F',marginTop:4,lineHeight:16}}>
-                        विधि: {String(exercise.hi_how_to_do || exercise.how_to_do)}
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          color: "#5F5F5F",
+                          marginTop: 4,
+                          lineHeight: 16,
+                        }}
+                      >
+                        विधि:{" "}
+                        {String(exercise.hi_how_to_do || exercise.how_to_do)}
                       </Text>
                     )}
                     {exercise.images && (
-                      <Text style={{fontSize:11,color:'#01c43d',marginTop:4}}>
+                      <Text
+                        style={{ fontSize: 11, color: "#01c43d", marginTop: 4 }}
+                      >
                         चित्र उपलब्ध
                       </Text>
                     )}
@@ -104,30 +170,95 @@ const ExercisePage = ({ navigation }) => {
             )}
 
             {/* Exercise Instructions */}
-            {consultationData && consultationData.instructions && consultationData.instructions.exercise_instruction && (
-              <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
-                <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>व्यायाम निर्देश</Text>
-                {consultationData.instructions.exercise_instruction.map((instruction, index) => (
-                  <Text key={index} style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
-                    • {String(instruction)}
+            {consultationData &&
+              consultationData?.instructions &&
+              consultationData?.instructions?.exercise_instruction && (
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    padding: 15,
+                    borderRadius: 8,
+                    marginBottom: 15,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      marginBottom: 12,
+                      color: "#01c43d",
+                    }}
+                  >
+                    व्यायाम निर्देश
                   </Text>
-                ))}
-              </View>
-            )}
+                  {consultationData.instructions.exercise_instruction.map(
+                    (instruction, index) => (
+                      <Text
+                        key={index}
+                        style={{
+                          fontSize: 13,
+                          color: "#2D2D2D",
+                          marginBottom: 6,
+                          lineHeight: 18,
+                        }}
+                      >
+                        • {String(instruction?.instruction)}
+                      </Text>
+                    ),
+                  )}
+                </View>
+              )}
 
             {/* General Exercise Tips */}
-            <View style={{backgroundColor:'white',padding:15,borderRadius:8,marginBottom:15}}>
-              <Text style={{fontSize:16,fontWeight:'bold',marginBottom:12,color:'#01c43d'}}>व्यायाम सुझाव</Text>
-              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 15,
+                borderRadius: 8,
+                marginBottom: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  marginBottom: 12,
+                  color: "#01c43d",
+                }}
+              >
+                व्यायाम सुझाव
+              </Text>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: "#2D2D2D",
+                  marginBottom: 6,
+                  lineHeight: 18,
+                }}
+              >
                 • व्यायाम से पहले हमेशा वार्म-अप करें
               </Text>
-              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: "#2D2D2D",
+                  marginBottom: 6,
+                  lineHeight: 18,
+                }}
+              >
                 • व्यायाम के दौरान पर्याप्त पानी पिएं
               </Text>
-              <Text style={{fontSize:13,color:'#2D2D2D',marginBottom:6,lineHeight:18}}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: "#2D2D2D",
+                  marginBottom: 6,
+                  lineHeight: 18,
+                }}
+              >
                 • यदि दर्द या असुविधा हो तो व्यायाम बंद कर दें
               </Text>
-              <Text style={{fontSize:13,color:'#2D2D2D',lineHeight:18}}>
+              <Text style={{ fontSize: 13, color: "#2D2D2D", lineHeight: 18 }}>
                 • नियमित व्यायाम करें लेकिन अधिक न करें
               </Text>
             </View>
@@ -136,69 +267,135 @@ const ExercisePage = ({ navigation }) => {
       </ScrollView>
 
       {/* Sticky Footer */}
-      <View style={{ flexDirection: 'row', backgroundColor: 'white', elevation: 5 }}>
-        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Profile')}>
-          <FontAwesome6 name="user-gear" size={24} color="#10331b" style={{ width: 30 }} />
-          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
-            {langState.language === 'hindi' ? 'प्रोफाइल' : 'Profile'}
+      <View
+        style={{ flexDirection: "row", backgroundColor: "white", elevation: 5 }}
+      >
+        <Pressable
+          style={{ flex: 1, alignItems: "center", padding: 10 }}
+          onPress={() => navigation.navigate("Profile")}
+        >
+          <FontAwesome6
+            name="user-gear"
+            size={24}
+            color="#10331b"
+            style={{ width: 30 }}
+          />
+          <Text style={{ fontSize: 10, color: "#10331b", marginTop: 2 }}>
+            {langState.language === "hindi" ? "प्रोफाइल" : "Profile"}
           </Text>
         </Pressable>
-        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('HealthPlan')}>
-          <Ionicons name="fitness" size={24} color="#10331b" style={{ width: 30 }} />
-          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
-            {langState.language === 'hindi' ? 'स्वास्थ्य' : 'Health'}
+        <Pressable
+          style={{ flex: 1, alignItems: "center", padding: 10 }}
+          onPress={() => navigation.navigate("HealthPlan")}
+        >
+          <Ionicons
+            name="fitness"
+            size={24}
+            color="#10331b"
+            style={{ width: 30 }}
+          />
+          <Text style={{ fontSize: 10, color: "#10331b", marginTop: 2 }}>
+            {langState.language === "hindi" ? "स्वास्थ्य" : "Health"}
           </Text>
         </Pressable>
-        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Medicine')}>
-          <MaterialCommunityIcons name="pill" size={24} color="#10331b" style={{ width: 30 }} />
-          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
-            {langState.language === 'hindi' ? 'दवाई' : 'Medicine'}
+        <Pressable
+          style={{ flex: 1, alignItems: "center", padding: 10 }}
+          onPress={() => navigation.navigate("Medicine")}
+        >
+          <MaterialCommunityIcons
+            name="pill"
+            size={24}
+            color="#10331b"
+            style={{ width: 30 }}
+          />
+          <Text style={{ fontSize: 10, color: "#10331b", marginTop: 2 }}>
+            {langState.language === "hindi" ? "दवाई" : "Medicine"}
           </Text>
         </Pressable>
-        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Therapy')}>
-          <MaterialCommunityIcons name="medical-bag" size={24} color="#10331b" style={{ width: 30 }} />
-          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
-            {langState.language === 'hindi' ? 'चिकित्सा' : 'Therapy'}
+        <Pressable
+          style={{ flex: 1, alignItems: "center", padding: 10 }}
+          onPress={() => navigation.navigate("Therapy")}
+        >
+          <MaterialCommunityIcons
+            name="medical-bag"
+            size={24}
+            color="#10331b"
+            style={{ width: 30 }}
+          />
+          <Text style={{ fontSize: 10, color: "#10331b", marginTop: 2 }}>
+            {langState.language === "hindi" ? "चिकित्सा" : "Therapy"}
           </Text>
         </Pressable>
-        <Pressable style={{ flex: 1, alignItems: 'center', padding: 10 }} onPress={()=>navigation.navigate('Sound')}>
-          <MaterialCommunityIcons name="music-note" size={24} color="#10331b" style={{ width: 30 }} />
-          <Text style={{fontSize:10,color:'#10331b',marginTop:2}}>
-            {langState.language === 'hindi' ? 'ध्वनि' : 'Sound'}
+        <Pressable
+          style={{ flex: 1, alignItems: "center", padding: 10 }}
+          onPress={() => navigation.navigate("Sound")}
+        >
+          <MaterialCommunityIcons
+            name="music-note"
+            size={24}
+            color="#10331b"
+            style={{ width: 30 }}
+          />
+          <Text style={{ fontSize: 10, color: "#10331b", marginTop: 2 }}>
+            {langState.language === "hindi" ? "ध्वनि" : "Sound"}
           </Text>
         </Pressable>
       </View>
 
       {/* Date Selection Modal */}
       <Portal>
-        <Modal visible={showDateModal} onDismiss={() => setShowDateModal(false)} contentContainerStyle={{backgroundColor:'white',margin:20,padding:20,borderRadius:10}}>
-          <Text style={{fontSize:18,fontWeight:'bold',marginBottom:20,textAlign:'center'}}>परामर्श तिथि चुनें</Text>
-          <ScrollView style={{maxHeight:300}}>
+        <Modal
+          visible={showDateModal}
+          onDismiss={() => setShowDateModal(false)}
+          contentContainerStyle={{
+            backgroundColor: "white",
+            margin: 20,
+            padding: 20,
+            borderRadius: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              marginBottom: 20,
+              textAlign: "center",
+            }}
+          >
+            परामर्श तिथि चुनें
+          </Text>
+          <ScrollView style={{ maxHeight: 300 }}>
             {consultationDates.map((date, index) => (
-              <Pressable 
+              <Pressable
                 key={index}
                 style={{
-                  padding:15,
-                  borderRadius:5,
-                  backgroundColor: selectedDate === date ? '#01c43d' : '#f0f0f0',
-                  marginBottom:10
+                  padding: 15,
+                  borderRadius: 5,
+                  backgroundColor:
+                    selectedDate === date ? "#01c43d" : "#f0f0f0",
+                  marginBottom: 10,
                 }}
                 onPress={() => {
                   getConsultationData(date);
                   setShowDateModal(false);
                 }}
               >
-                <Text style={{
-                  textAlign:'center',
-                  color: selectedDate === date ? 'white' : '#2D2D2D',
-                  fontWeight:'500'
-                }}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: selectedDate === date ? "white" : "#2D2D2D",
+                    fontWeight: "500",
+                  }}
+                >
                   {String(date)}
                 </Text>
               </Pressable>
             ))}
           </ScrollView>
-          <Button onPress={() => setShowDateModal(false)} style={{marginTop:20}}>
+          <Button
+            onPress={() => setShowDateModal(false)}
+            style={{ marginTop: 20 }}
+          >
             बंद करें
           </Button>
         </Modal>

@@ -52,9 +52,9 @@ const UserLoginPage = ({ navigation }) => {
 
       if (response.data && response.data.token) {
         await signin({
-          token: response.data.token,
-          fullName: response.data.userName?.name || 'User',
-          role: response.data.role || 'Patient',
+          token: response.data?.token,
+          fullName: response.data?.userName || 'User',
+          role: response.data?.role || 'Patient',
           phoneNumber: password,
           registrationNumber: userName
         });

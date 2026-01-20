@@ -83,7 +83,7 @@ const ProfilePage = ({ navigation }) => {
                 <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
                   {t('name')}: {state.fullName}
                 </Text>
-              )}
+              )} 
               {state.role && (
                 <Text style={{fontSize:16,color:'#2D2D2D',marginBottom:8}}>
                   {t('role')}: {state.role}
